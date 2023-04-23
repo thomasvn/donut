@@ -8,24 +8,34 @@ A CLI tool modeled after <https://www.donut.com>
 ## Install
 
 ```bash
-$ git clone
+$ git clone git@github.com:thomasvn/donut.git
+$ cd donut
 $ go build -o donut
 ```
 
 ## Example
 
-Using the default `friends.yaml` provided in the repo:
-
 ```bash
-./donut list
-./donut pair 
-```
+$ ./donut list
+Friends list:
+- Alice (met on [2023-01-01 2023-02-15])
+- Bob (met on [2023-01-10])
+- Charlie (met on [])
 
-Using your own friend files:
+$ ./donut pair
+🍩 Reach out to: Alice (last met: 2023-02-15)? Accept (y), Decline (n): n
+🍩 Reach out to: Bob (last met: 2023-01-10)? Accept (y), Decline (n): y
+You have chosen to reach out to: Bob
 
-```bash
-./donut -f "family.yaml" list
-./donut -f "family.yaml" pair
+# Using a custom filename
+$ ./donut family.yaml list
+Friends list:
+- Fluffy (met on [2023-03-12 2023-04-30])
+- Whiskers (met on [2023-05-01])
+- Paws (met on [])
+- Bubbles (met on [2023-06-20 2023-07-15 2023-08-10])
+- Sparky (met on [2023-09-01])
+- Luna (met on [])
 ```
 
 <!-- TODO:

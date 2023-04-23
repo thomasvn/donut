@@ -1,0 +1,10 @@
+friends:
+  - name: Alice
+    dates:
+      - 2023-01-01
+      - 2023-02-15
+  - name: Bob
+    dates:
+      - 2023-01-10
+  - name: Charlie
+    dates: []

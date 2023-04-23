@@ -20,6 +20,7 @@ type FriendsList struct {
 	Friends []Friend `yaml:"friends"`
 }
 
+// Entrypoint.
 func main() {
 	args := os.Args[1:]
 
@@ -28,11 +29,9 @@ func main() {
 		return
 	}
 
-	// Default to using "friends.yaml" if friends_file not specified
+	// Default to using "friends.yaml" if friends_file not provided
 	friendsFile := "friends.yaml"
 	command := args[0]
-
-	// Otherwise, use the friends_file provided
 	if len(args) == 2 {
 		friendsFile = args[0]
 		command = args[1]
@@ -64,6 +63,8 @@ func listFriends(friendsFile string) {
 }
 
 // Continuously propose random friends from your friend list until you accept.
+// Once accepted, write today's date prefixed with "TMP" to the corresponding
+// friend in the friends file.
 func pairFriend(friendsFile string) {
 	friends := loadFriends(friendsFile)
 
@@ -77,18 +78,22 @@ func pairFriend(friendsFile string) {
 	reader := bufio.NewReader(os.Stdin)
 
 	for {
+		// Choose random friend, and use pointer to later update object
 		randomIndex := rand.Intn(len(friends))
 		friend := &friends[randomIndex]
 
+		// Get metadata on when you last met friend
 		lastMet := "never"
 		if len(friend.Dates) > 0 {
 			lastMet = friend.Dates[len(friend.Dates)-1]
 		}
 
+		// Prompt user
 		fmt.Printf("🍩 Reach out to: %s (last met: %s)? Accept (y), Decline (n): ", friend.Name, lastMet)
 		response, _ := reader.ReadString('\n')
 		response = strings.TrimSpace(response)
 
+		// Parse response
 		if strings.ToLower(response) == "y" {
 			friend.Dates = append(friend.Dates, "TMP "+time.Now().Format("2006-01-02"))
 			saveFriends(friendsFile, friends)
